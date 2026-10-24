@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: subagent-fallback
+expected_outcome: |
+  With no session tools, plans the run on the subagent backend; checks the premise (the fixture has 2 September invoices, not 4) before go; uses each repo's ship route (tally-web via PR; tally-api branch pushes, nothing to prod); waits for go before starting builders.
+context:
+  scaffold_script: place-files.sh

@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: scope-drift
+expected_outcome: |
+  Holds the contract: parks the worker's own refactor idea, treats the PDF clean-up and the dashboard redesign as outside the contract (offered as separate work or with their cost), records the change, keeps the original goals moving, and replies briefly.
+context:
+  scaffold_script: place-files.sh

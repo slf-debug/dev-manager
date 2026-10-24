@@ -1,0 +1,10 @@
+{
+  "name": "dev-manager",
+  "version": "0.1.0",
+  "description": "Run a Claude Code session as a development manager: a contract per run, a few independent streams staffed with their own sessions or subagents, reports checked rather than trusted, usage guarded, and one merged, tested branch shipped the repo's way.",
+  "author": { "name": "Simon Forby" },
+  "homepage": "https://github.com/slf-debug/dev-manager",
+  "repository": "https://github.com/slf-debug/dev-manager",
+  "license": "MIT",
+  "keywords": ["orchestration", "multi-agent", "worktrees", "subagents", "project-management"]
+}

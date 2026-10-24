@@ -1,0 +1,14 @@
+{
+  "name": "dev-manager",
+  "owner": {
+    "name": "Simon Forby"
+  },
+  "plugins": [
+    {
+      "name": "dev-manager",
+      "source": "./",
+      "description": "Run a Claude Code session as a development manager for multi-part jobs."
+    }
+  ],
+  "description": "A development-manager skill for Claude Code: contracts, streams, checked reports, one merged branch."
+}

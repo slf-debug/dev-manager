@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: end-point
+expected_outcome: |
+  Declares the run finished because every Done-when line is met, with evidence; doesn't fix the pricing page but surfaces the mismatch to Sam; wraps up (closes workers, switches off reminders, goal-by-goal recap with usage against ceiling) and looks for no more work.
+context:
+  scaffold_script: place-files.sh

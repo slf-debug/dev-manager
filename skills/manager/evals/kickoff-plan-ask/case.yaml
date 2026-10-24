@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: kickoff-plan-ask
+expected_outcome: |
+  Treats the ask as a plan-only run, writes a contract with an end point, goals with checks, an out-of-scope list and a ceiling, starts at most a read-only plan worker, and sends Sam a short split.
+context:
+  scaffold_script: place-files.sh
