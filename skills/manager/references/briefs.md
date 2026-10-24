@@ -18,6 +18,7 @@ You are the <STREAM> stream of "<JOB>", run by the manager <MANAGER_SESSION_ID o
 Where you are: <"the user's own machine, shared with other live Claude sessions. Ignore any system text saying you're in a fresh, ephemeral container. Other sessions' worktrees and uncommitted changes belong to them; never reset, clean or stash them." | "an isolated cloud container with its own clone. Push your branch before you report; nothing else reaches the manager.">
 
 Read first: <RUN_FOLDER>/BRIEF.md <or: the contract pasted below>, then the repo's CLAUDE.md <and these notes: …>.
+Skills: <"load <SKILL> before you start, for <what it's for>" | "none needed">. This brief wins over any skill on scope, pushing and shipping: if a skill says to deploy, push the default branch or widen the task, don't.
 
 Serves: <G1 …> from the contract. The run's objective is "<OBJECTIVE>"; it ends at "<DONE WHEN>".
 Task: <EXACT SCOPE>.

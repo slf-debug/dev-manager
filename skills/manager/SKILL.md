@@ -112,6 +112,8 @@ Start each worker with the brief from `references/briefs.md`: the common core pl
 - **Default model** (Sonnet-class): building, tests, mechanical edits.
 - **Fast model** (Haiku-class): log or diff parsing, link and format checks.
 
+**Skills by role.** Look at the skills this session can use (and the setup file's Skills section), and name in each brief the zero to two that fit the worker's role: a review or QC skill for verify, a design skill for UI, a domain skill for the area being changed. Workers given a long, specific brief rarely load a skill on their own: in the runs behind this skill, 52 of 60 workers loaded none, including every verify stream and most UI builds where one fitted. Don't name skills that repeat the manager's own process (planning, spec-writing, incremental build, launch checklists); the contract and briefs already do those, and running both is process twice. Many skills end with their own ship or push step, so the brief says it wins over any skill on scope, pushing and shipping.
+
 Rules that prevent failures already seen:
 - **Start a worker when its input is ready**, not all up front. A build brief written after the plan is approved can carry the plan; a worker left standing by holds a brief that goes stale.
 - **One owner per file.** No two live workers edit the same file. Two sessions editing the same sample output cost a real run a round of rework. If two streams need one file, run them one after the other or make them one stream.
