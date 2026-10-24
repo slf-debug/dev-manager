@@ -80,7 +80,35 @@ The skill is general. Your own choices go in a setup file, `~/.claude/manager.md
 cd skills/manager && claude plugin eval . --scaffold --allow-tools Write,Edit,Bash
 ```
 
-These are real model runs and use real usage. Results from the latest round are in [`evals/RESULTS.md`](skills/manager/evals/RESULTS.md).
+These are real model runs and use real usage.
+
+### Results
+
+Round 2 (24 Oct 2026). Each scenario ran once with the skill and once without it. The manager ran on Sonnet, which is a harder test than the stronger model the skill recommends for managers. A separate model graded each run against the case's checks, using git and test runs where it could rather than taking the reply's word for it.
+
+| Scenario | What it tests | With dev-manager | Without | Difference |
+|---|---|---|---|---|
+| kickoff-plan-ask | "Work out what it'd take" gives a plan-only run with an end point, goals, a ceiling and a read-only planner | 10/10 (100%) | 2/10 (20%) | **+80 pts** |
+| subagent-fallback | No session tools; a build ask with a wrong premise. Plans on subagents, checks the premise, waits for go | 8/9 (89%) | 3/9 (33%) | **+56 pts** |
+| merge-seam-collision | Streams that pass alone and fail together, plus a false "ready". Merges, finds both, doesn't edit tests to go green | 11/11 (100%) | 8/11 (73%) | **+27 pts** |
+| end-point | A check-in fires after everything shipped. Stops, wraps up, doesn't take on the next job | 8/8 (100%) | 6/8 (75%) | **+25 pts** |
+| scope-drift | Two out-of-contract asks plus a worker's own idea and an overstated report | 11/11 (100%) | 10/11 (91%) | **+9 pts** |
+| **Total, round 2** | | **48/49 (98%)** | **29/49 (59%)** | **+39 pts** (1.66×) |
+| Total, round 1 | Same scenarios, looser checks (41) | 40/41 (98%) | 23/41 (56%) | +42 pts (1.74×) |
+
+| Cost per run (round 2 average) | With dev-manager | Without | Difference |
+|---|---|---|---|
+| Tokens | 81,300 | 64,500 | +26% |
+| Time | 69 s | 53 s | +31% |
+
+The extra cost is mostly the manager reading the skill and writing the contract before it starts. In a real run it pays off by stopping work that wasn't asked for.
+
+What the gaps looked like without the skill:
+- A plan request got a plan the manager wrote itself, with no end point or ceiling and a full build waiting on go.
+- A build request was built straight away, with no split, review, ceiling or go.
+- A merge was made green by editing another stream's tests.
+
+The one miss with the skill was a kickoff message 43 words over its limit. The rule has since been tightened, and a re-run came in under it. Treat a single-check difference as noise: there was one run per configuration. Full detail is in [`evals/RESULTS.md`](skills/manager/evals/RESULTS.md).
 
 ## Contact
 
