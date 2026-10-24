@@ -1,5 +1,22 @@
 # Eval results
 
+## Round 2 (24 Oct 2026)
+
+Same five scenarios, with tighter graders (49 assertions, up from 41) and fixtures whose worker branches and SHAs actually exist. That turned up something round 1 couldn't: the scope-drift worker's report overstated its work, and every skill version caught it by checking the branch. One run per configuration; the manager on Sonnet; graded by a separate Sonnet grader.
+
+| Scenario | With this skill | No skill |
+|---|---|---|
+| kickoff-plan-ask | 10/10 | 2/10 |
+| end-point | 8/8 | 6/8 |
+| scope-drift | 11/11 | 10/11 |
+| subagent-fallback | 8/9 | 3/9 |
+| merge-seam-collision | 11/11 | 8/11 |
+| **Total** | **48/49 (98%)** | **29/49 (59%)** |
+
+The one miss was a kickoff message at 263 words against a 220 limit, padded by three separate findings. The kickoff rule now puts each finding on one line, and a re-run of that case came in at 207 words with the same content.
+
+Without the skill, the same failures as round 1 came back: a plan request answered with a plan the manager wrote itself and no ceiling; a build request built straight away with no split, review or go; and a merge made green by editing another stream's tests.
+
 ## Round 1 (24 Oct 2026)
 
 Five dry-run scenarios, one run each per configuration. The manager ran on Sonnet, a harder test than the strong model the skill recommends for managers. Graded by a separate Sonnet grader against each case's `graders/`. In a dry run the manager logs the tool calls it would make (start, message, schedule) instead of making them; everything else, including git and tests on the fixture repos, is real.

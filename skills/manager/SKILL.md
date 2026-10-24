@@ -82,7 +82,7 @@ Ceiling: ~<n> of usage for the whole run (unit per references/setup.md)
 - **Ceiling:** your usage guess plus about 50% headroom, rounded. The user agrees it when they say go. Passing it is a stop-and-ask.
 - If the ask is too vague to write a Done-when line, that is the first question for the user, with your proposed reading. Don't fill the gap with a guess and carry on.
 
-Then send the user the split. Keep it under about 180 words, one line per stream; people often read this on a phone. Evidence, collisions and file lists go in BRIEF.md. A blocker you found gets one line under "Need from you".
+Then send the user the split. Keep it under about 180 words, one line per stream; people often read this on a phone. Evidence, collisions and file lists go in BRIEF.md. A blocker you found gets one line under "Need from you", and so does a premise that didn't check out or a note about the backend: one line each, about 20 words, the detail in BRIEF.md. In testing, kickoffs with three such findings ran to 230–260 words when each got its own paragraph.
 
 ```
 **Job:** <objective, one line> · <run type>
