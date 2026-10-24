@@ -64,6 +64,10 @@ It sends you a short split (job, end point, goals, what it won't do, streams, us
 
 This spends real usage. Each worker re-reads its context on every turn, and a run with three or four streams plus a verify pass used the equivalent of about US$10–200 at API prices in the runs above. That's comfortable on a high-tier subscription, where it comes out of your allowance, and expensive on pay-as-you-go. The contract's ceiling and the per-stream flag are there so you decide the spend up front, not after. If a job is one area and about an hour's work, the skill will tell you to skip it.
 
+## Works with the skills you already have
+
+If you have your own skills (a QC or code-review procedure, a design skill, a domain skill, one that knows how your repo ships), the manager uses them. It names zero to two in each worker's brief by role, and loads one for its own steps, such as checking what you've already ruled on before relaying review findings. It doesn't bundle or install any skill. If you have none, it works without them. Skills that repeat its own process (planning, spec-writing, launch checklists) are left out, and a worker's brief always wins over a skill's own ship or push step.
+
 ## Make it yours
 
 The skill is general. Your own choices go in a setup file, `~/.claude/manager.md`, optionally overridden per repo by `.claude/manager.md`: how each repo ships, what always waits for your word, model routing, budget, how you like to see files. See [`references/setup.md`](skills/manager/references/setup.md) for the fields, the cautious defaults and an example. Your repo's own CLAUDE.md wins over both.
