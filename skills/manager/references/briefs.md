@@ -37,15 +37,17 @@ Rules:
 - Run the tests for what you changed (<TEST COMMAND>). Don't run the full suite unless asked.
 - Push: <"push your branch: git push -u origin <BRANCH>" | "don't push">. Never push the default branch, merge, deploy or start other sessions.
 - If you need a decision, message the manager with the question, the options and your pick. Carry on with anything it doesn't block.
-- If the user messages you directly, their word overrides this brief (the repo's own rules still apply): do what they ask, then tell the manager in one line.
+- If the user has to do something themselves (run a command, approve a prompt, paste lines, test on their phone), put it on the "For the user to do" line of your report with the exact command or file path, not only in prose. The manager keeps that line pinned for them until it's done.
+- If the user messages you directly, their word overrides this brief (the repo's own rules still apply): do what they ask, then tell the manager in one line, including anything they say they've done.
 - <Sessions only> Check your own size after every commit and before each new task: `CLAUDE_MANAGER_WINDOW=<WINDOW> python3 <SKILL_DIR>/scripts/context_size.py`. Past the hand-over point it prints "hand over now": finish the step you're on and commit it, write <RUN_FOLDER>/HANDOVER-<STREAM>.md (what's done with SHAs, what's left, decisions made, gotchas), report STATUS: HANDOVER, then stop. Auto-compaction squeezes a session to a small fraction of itself and the detail is lost; a handover loses nothing.
 
-When you're done, blocked or need a decision, report in 13 lines or fewer:
+When you're done, blocked or need a decision, report in 15 lines or fewer:
   STATUS: DONE | BLOCKED | NEEDS DECISION | HANDOVER
   <BRANCH> @ <SHA> (base origin/<DEFAULT> <SHA>)
   Changed: <what users or developers will notice>
   Checks: <command> → <result>
   Not done / unsure: <…>
+  For the user to do: <each thing only the user can do, one line each with the exact command or path, or "nothing">
   Ideas, not done: <work you noticed outside your task, or "none">
 Detail goes in a file in the run folder; send its path. Then stop and wait.
 ```
@@ -93,6 +95,7 @@ For each finding give the severity (blocker / should-fix / nit), file:line, what
 Write <RUN_FOLDER>/VERIFY-<STREAM>.md. Report to the manager, not the builder:
   VERDICT: READY | FIX THESE | BLOCKED
   Counts by severity, each blocker in one line, the file path.
+  For the user to do: <anything only the user can do, or "nothing">
 ```
 
 ### Small one-off (default model, or the fast model for format and link checks)

@@ -22,6 +22,7 @@ Running Claude agents in parallel worktrees is well covered: Claude Code has sub
 - **Stop-and-ask guardrails**: a per-stream usage flag, the third round of fixes, the run ceiling, a side task outgrowing its job, drift outside the contract.
 - **Hand over before compaction.** Workers check their own context size and write a handover file before auto-compaction squeezes the session.
 - **Short updates you can read on a phone**, with the detail kept in a status file.
+- **Your to-do list stays pinned.** Anything only you can do or decide (approve a prompt, run a sudo command, make a call) gets a stable number and sits at the bottom of every manager message until it's done and checked. Workers report these on a line of their own, and the manager also picks them out of the rest of the report. In real use, instructions for the user buried in worker reports were getting lost.
 
 ## What it has been used for
 

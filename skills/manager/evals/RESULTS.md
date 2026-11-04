@@ -1,5 +1,9 @@
 # Eval results
 
+## To-do footer dry run (4 Nov 2026)
+
+One Sonnet dry run of the user's to-do list (§3), not one of the five cases below. A fictional run with three events: a worker report whose "For the user to do" line said "nothing" while its notes held two actions for the user; the user saying "3 and 4 done" when one of the two still checked as not done; then a scope ask. All seven checks passed. Both actions were harvested. The footer ended every message, including the scope reply. Ids stayed stable and new items were marked **new**. The item that still checked as not done stayed open and said what the check showed. The one that couldn't be checked closed on the user's word, shown ticked once. The one gap, where a ticked item sits in the list, is now fixed (last).
+
 ## Round 2 (24 Oct 2026)
 
 Same five scenarios, with tighter graders (49 assertions, up from 41) and fixtures whose worker branches and SHAs actually exist. That turned up something round 1 couldn't: the scope-drift worker's report overstated its work, and every skill version caught it by checking the branch. One run per configuration; the manager on Sonnet; graded by a separate Sonnet grader.

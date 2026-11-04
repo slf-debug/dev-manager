@@ -52,7 +52,7 @@ If you're unsure which kind an environment is, start the first worker with a bri
 - `scripts/context_size.py` reports *your* session's size, not a subagent's, because subagents share your session id. Their notification's `total_tokens` is the only size signal you get.
 - Usage comes as tokens, not cost. Keep a running total in STATUS.md and set the ceiling in tokens.
 
-**Your own size matters more here**, because every report lands in your context. Ask for the 13-line report format and nothing more; have workers write detail to files in the run folder and send you the path.
+**Your own size matters more here**, because every report lands in your context. Ask for the 15-line report format and nothing more; have workers write detail to files in the run folder and send you the path.
 
 ## Mixing
 

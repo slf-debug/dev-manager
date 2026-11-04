@@ -18,9 +18,13 @@ Run type: <plan only | review only | build to branch | build and ship> · Done w
 
 States: planned · running · reported · verifying · fixing · ready · merged · shipped · closed
 
-## Waiting on the user
+## To-do for the user
 
-- <decision>, with my pick
+Open (every message to the user ends with a copy of this list):
+- [ ] T<n> <verb first: action with the exact command or link, or "Decide: …? My pick: …"> · blocks <what> | not blocking · from <stream | manager> · added <YYYY-MM-DD HH:MM>
+
+Closed (ids are never reused):
+- [x] T<n> <action> · <evidence: what I checked | "user said done" | dropped by the user | not needed: why> · <YYYY-MM-DD HH:MM>
 
 ## Rulings
 

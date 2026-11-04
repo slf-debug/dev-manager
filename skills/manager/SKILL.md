@@ -86,7 +86,7 @@ Ceiling: ~<n> of usage for the whole run (unit per references/setup.md)
 - **Ceiling:** your usage guess plus about 50% headroom, rounded. The user agrees it when they say go. Passing it is a stop-and-ask.
 - If the ask is too vague to write a Done-when line, that is the first question for the user, with your proposed reading. Don't fill the gap with a guess and carry on.
 
-Then send the user the split. Keep it under about 180 words, one line per stream; people often read this on a phone. Evidence, collisions and file lists go in BRIEF.md. A blocker you found gets one line under "Need from you", and so does a premise that didn't check out or a note about the backend: one line each, about 20 words, the detail in BRIEF.md. In testing, kickoffs with three such findings ran to 230–260 words when each got its own paragraph.
+Then send the user the split. Keep it under about 180 words, one line per stream; people often read this on a phone. Evidence, collisions and file lists go in BRIEF.md. A blocker you found gets one to-do line in the footer, and so does a premise that didn't check out or a note about the backend: one line each, about 20 words, the detail in BRIEF.md. In testing, kickoffs with three such findings ran to 230–260 words when each got its own paragraph.
 
 ```
 **Job:** <objective, one line> · <run type>
@@ -99,9 +99,13 @@ Then send the user the split. Keep it under about 180 words, one line per stream
 3. Verify (G1, G2): <what gets checked hard> · <strong model>, read-only
 **Lands as:** `<integration branch>` → <ship route>
 **Usage:** guess ~<n>, ceiling ~<m>
-**Need from you:** <only real decisions, each with your pick>
-Say **go** and I'll start the build.
+---
+**Your to-do** (<n> open)
+- [ ] T1 Say **go** to start the build (agrees the contract above)
+- [ ] T2 Decide: <only real decisions, each with your pick>
 ```
+
+The to-do footer starts here and stays on every message until its items close (§3, the user's to-do list).
 
 For a plan-only or review-only run, the streams are the read-only workers. Drop **Lands as**, and end with what they'll get and roughly when ("PLAN.md in ~40 min, then you decide whether to build").
 
@@ -135,17 +139,36 @@ Rules that prevent failures already seen:
 - `references/backends.md` has the tools for each step.
 
 **Relaying.**
-- To the user: 2–4 lines per report: what's done, what it means for them, anything they must decide. Batch several workers' questions into one message, your recommendation first.
+- To the user: 2–4 lines per report: what's done and what it means for them. Anything they must do or decide goes on their to-do list (below), not only in those lines. Batch several workers' questions into one message, your recommendation first.
 - To workers: pass the user's decisions on as rulings ("The user has ruled: …") and log each with its date in STATUS.md. Never invent a ruling or turn a "maybe" into a yes.
 - If the user talks to a worker directly, the worker tells you (its brief says to), and you update the ledger.
 - Say what you've done, not what you mean to do. "I've told X to stop" only once the message has gone; until then it's "I'll tell X…".
+
+**The user's to-do list.** Everything the user has to do or decide themselves goes on one numbered list, and the list sits at the bottom of every message you send them until each item is closed. On a phone the end of the latest message is what they see first; an instruction relayed once, mid-report, scrolls away. In real use, the user found that instructions for them in workers' reports were getting lost, and one run's status file had a sudo restart of the CI runner buried inside its ship-decision line.
+- **What goes on it:** every action only the user can take (approve a prompt, run a sudo command, paste deploy lines, test on their phone, log in somewhere, rotate a key, release or send something) and every decision you've asked them for, the kickoff's go included. One line each, verb first, with the exact command or link, what it blocks and where it came from.
+- **Harvest every report.** Workers put the user's actions on their "For the user to do" line, but read the whole report and any file it points to for more: "the user needs to", "ask the user to", "run", "approve", "paste", "sudo", "on your phone". Add each one before you relay the report. Add the ones you hit yourself too, such as a tool refusal that needs their approval. An instruction you relay as prose without putting it on the list is the failure this rule exists for.
+- **Ids are stable:** T1, T2, … for the whole run, never renumbered or reused, so "done 4" always means the same item. A bare number in a reply to the footer means a T item.
+- **The footer** is the last thing in every message to the user while any item is open: relays, the board, scope replies, the ship decision, one-line acks, the recap. Blocking items first, then oldest; **new** on items added in this message; a closed item shows once, ticked and last, in the next message and then drops off. It sits outside the word limits for the kickoff and the board, but each item stays one line, with the detail in STATUS.md:
+
+```
+---
+**Your to-do** (3 open)
+- [ ] T4 Restart the CI runner: `sudo systemctl restart <unit>` · blocks the ship · from verify
+- [ ] T6 **new** Decide: the export redesign as its own run (~<n>)? My pick: not now
+- [ ] T2 Check the share link on your phone: <link> · not blocking
+- [x] T5 Production deploy approved · live, hashes match (14:02)
+Reply "done 4", or answer by number.
+```
+
+- **Closing an item.** It closes when it's done and you've checked (the runner is online, the commit is live, the prompt is gone), when the user says it's done and there's nothing you can check, when they drop it, or when it's no longer needed: show that once as `- [x] ~~T3 …~~ not needed: <why>`. If they say done and your check disagrees, it stays open and the footer says what you saw. Nothing comes off the list because a message was about something else.
+- **STATUS.md holds the list** (`## To-do for the user`); the footer is a copy of its open items. Update it in the same step an item appears or closes.
 
 **Hold the boundaries.** Test every new piece of work against the contract before anyone starts it, whoever it came from.
 - **Inside a goal:** route it to the stream that owns it.
 - **From the user, outside the goals:** a scope change, but their ask is their OK, so don't make them say it twice. Add it to the contract as a goal, start it, and tell them in one line what it costs: usage, the new ceiling, what it does to Done-when ("adds ~15% and a re-verify; ship moves to tomorrow"). Three exceptions wait for them: an addition that would take the run past its ceiling (the ceiling is the one number they agreed, and asking for the work isn't a yes to the spend); something that is really a separate job (say so and offer it as its own run with its own contract); and anything too vague to write a check for (ask what done looks like).
 - **From a worker or from you** (a refactor it noticed, a tidy-up, the next phase): it isn't started. Workers list these under "Ideas, not done"; you keep them in STATUS.md and offer them in the recap.
 - **Owned by another run:** leave it there. In real use a rename moved between two runs mid-flight and both half-did it.
-- Keep the scope reply as short as the ask: one line per item (in or out, your pick, the cost), then one "Need from you" line. The reasoning goes in STATUS.md. In testing, holding two asks took 276 words where a phone reply needed about 80.
+- Keep the scope reply as short as the ask: one line per item (in or out, your pick, the cost), then the to-do footer, with any new decision on it. The reasoning goes in STATUS.md. In testing, holding two asks took 276 words where a phone reply needed about 80.
 - Whenever the contract changes, edit it in BRIEF.md with the date and reason, log it, and tell the affected streams. A ruling that widens scope counts too, so the contract always says what the run is actually doing.
 
 **Holds.** If the user says hold, park everything and record where each stream stopped. On resume, re-read the contract and confirm in one line whether it still stands; a direction change on resume is an amendment.
@@ -191,6 +214,7 @@ When the streams are done:
    - each stream's user-visible change, before → after;
    - the test results on the merged tree, and anything unverified;
    - the exact ship command for that repo (from the repo's docs or the setup file). With no stated route: push the integration branch and open a PR, after asking.
+   - The ship word goes on the to-do footer as a T item with that command, and so does anything they must run or paste themselves.
    - Ship only on their explicit word naming it.
    - **Never run a ship or deploy command to learn its usage**, not even with `--help`, unless the repo documents a safe mode. Read the script instead. In testing, a manager ran a deploy script's `--help` and the script logged a deploy.
 7. **After shipping**, verify it live the way the repo's route does, and record the live SHAs in STATUS.md.
@@ -205,20 +229,21 @@ Likewise, when a reminder fires or a worker reports and everything in Done-when 
 - Once it has shipped and been checked, close the workers you started, after checking each is finished with nothing left unpushed that should have been pushed. Workers you didn't start are the user's to close.
 - Remove only your own worktrees, and only after `git -C <wt> status --porcelain` is empty and `git merge-base --is-ancestor <branch> origin/<default>` passes. Same check before deleting a merged remote branch.
 - Switch off any reminders this run still has (ids are in STATUS.md).
-- Recap in bullets: **Set out to do** · **Goals**: each met, not met or dropped, with evidence · **Changed and live · Built, not live · Waiting on you · Ideas, not done** · **Usage** against the ceiling.
+- Recap in bullets: **Set out to do** · **Goals**: each met, not met or dropped, with evidence · **Changed and live · Built, not live · Ideas, not done** · **Usage** against the ceiling. Then the to-do footer with everything still open. The run doesn't close with an item quietly open: each one is either in that footer or handed to the next run's STATUS.md. One that's due on a date becomes a scheduled task that starts a fresh session, if the session can make one, since a reminder into this session dies when the session is closed.
 - If the run taught you something non-obvious about the repo, save it where the repo keeps such notes (memory, CLAUDE.md), following the repo's rules. If there was no setup file, offer to write one now.
 
 ## Talking to the user
 
 - Short, plain bullet points, in the user's language and spelling conventions.
-- "Where are we at" gets the board: **Goals** (one line, e.g. `G1 ✅ live · G2 ⏳ verifying · G3 · queued`) · **Live · In progress · Waiting on you · Queued · Usage**. Keep it to about 15 lines; detail lives in STATUS.md. Usage gives the run's total against its ceiling and names any worker near its handover point.
+- Every message to the user ends with the to-do footer while any item is open (§3, the user's to-do list), however short the message.
+- "Where are we at" gets the board: **Goals** (one line, e.g. `G1 ✅ live · G2 ⏳ verifying · G3 · queued`) · **Live · In progress · Queued · Usage**, then the to-do footer. Keep the board above the footer to about 15 lines; detail lives in STATUS.md. Usage gives the run's total against its ceiling and names any worker near its handover point.
 - To show a file, use the method the setup file names; otherwise give the absolute path, or share it with whatever file tool the session has.
 - Say plainly when something failed, was skipped or is unverified.
 - One question per decision, with your recommendation first.
 
 ## Resuming
 
-On "status", "merge" or "wrap up", or a fresh start where a run already exists: find the run folder (`ls -t` the runs directory), read STATUS.md, check each live worker, and give the user the board before doing anything else. If BRIEF.md has no contract, draft one from its goal and the user's rulings, put it on the board as a proposal, and treat it as agreed only once they've seen it.
+On "status", "merge" or "wrap up", or a fresh start where a run already exists: find the run folder (`ls -t` the runs directory), read STATUS.md, check each live worker, and give the user the board, with the to-do footer from STATUS.md, before doing anything else. An older STATUS.md has "Waiting on the user" instead: turn each line into a T item, splitting any that mixes an action with a decision. If BRIEF.md has no contract, draft one from its goal and the user's rulings, put it on the board as a proposal, and treat it as agreed only once they've seen it.
 
 **Your own handover.** Check your own size at every check-in too (`python3 <this skill's folder>/scripts/context_size.py`). Past about 60% of your window, hand over to a fresh manager well before auto-compaction does it for you:
 - Tell the user in one line, then do it at the next quiet point.
