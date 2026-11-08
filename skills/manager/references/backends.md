@@ -4,10 +4,10 @@ The manager works the same way whatever starts the workers. This file maps each 
 
 | Step | Sessions (claude-code-remote tools) | Subagents (`Agent` tool) |
 |---|---|---|
-| Your own id | `get_session` with no arguments | none needed |
+| Your own id | `get_session` with no arguments; your ref from the first line of `ListAgents` (`This session is <name> [ref]`) | none needed |
 | Start a worker | `create_session` with `environment_id`, `model`, `title`, `tags`, `permission_mode`, `prompt` (the brief) | `Agent` with `prompt` (the brief), `model` (`opus` / `sonnet` / `haiku`), `isolation: "worktree"` for builders, `run_in_background: true` |
-| Worker reports to you | worker calls `send_message` with `session_id: "@parent"` | the completion notification carries its final message |
-| You message a worker | `send_message` with its `session_id` | `SendMessage` to its agent id (resumes it with its context) |
+| Worker reports to you | on your machine: `SendMessage` to the `ListAgents` row with your ref; in the cloud: `send_message` with `session_id: "@parent"` | the completion notification carries its final message |
+| You message a worker | `SendMessage` to its `ListAgents` row, found by ref; `send_message` with its `session_id` only if it isn't listed | `SendMessage` to its agent id (resumes it with its context) |
 | Stop a worker | `interrupt_session`, then a message saying what to do | `TaskStop`, if available; otherwise let it finish and ignore the rest |
 | Check-in | one `send_later` reminder into your own session for the whole run; when it's no longer needed, switch it off with `update_trigger` (`enabled: false`) and set a fresh one for the next due item | not needed: the notification arrives when it finishes |
 | Worker state | `get_session`: `status_bucket`, `context_usage.used_tokens`, usage/cost fields, any rate-limit info; then `list_events` (pass `kinds: ["assistant", "result"]`) for what it last said | the notification's `total_tokens` and `duration_ms` |
@@ -31,7 +31,14 @@ Tool names and fields change between versions. If one isn't there, look for the 
 
 If you're unsure which kind an environment is, start the first worker with a brief that asks it to report `pwd`, `hostname` and whether it can read your run folder.
 
-**Messages.** Sessions you created reply with `send_message` to `@parent`, and you answer with `send_message` and their `session_id`. Sessions the user started themselves are reached another way, usually `SendMessage` with the name `ListAgents` shows. The two routes don't cross: a message sent on the wrong one never arrives. If a worker's reply doesn't arrive, read its last assistant message with `list_events` before assuming it's stuck.
+**Messages.** Two routes, chosen per worker: local `SendMessage` for every session `ListAgents` lists, and the claude-code-remote `send_message` only for one it doesn't.
+
+- **On your machine** (workers in a Remote Control or self-hosted environment, and sessions the user started themselves), sessions show in `ListAgents`, and `SendMessage` between them is a local message. In real use it needed no approval, in either direction. Use it for these workers, both ways, and say so in their brief.
+- **Why not `send_message` for everything.** Depending on the user's settings, each `send_message` call can stop at a permission prompt that only the user can answer, and an approval given by a hook or another tool can make the send fail outright. In real use one run raised 7 such prompts in 10 minutes and lost a report that way.
+- **Find a peer by its ref**, the `[abc123]` after the name in `ListAgents`, and send to the name exactly as that row shows it. Names change when a session is renamed; the ref stays the same. A worker's own view of its name can lag behind yours, so briefs quote your ref, not your name. After a manager handover, tell every worker the new ref.
+- **To answer a message**, send to its `from` address.
+- **In the cloud** (Claude Code on the web), workers are not in `ListAgents`. They reply with `send_message` to `@parent`, and you answer with `send_message` and their `session_id`. If those calls prompt, tell the user once that each relay will need their approval, or that allow rules in their own settings would stop it.
+- **A message can fail to arrive** when the other session's host is asleep or offline (in real use, a desktop app on a laptop that had gone to sleep timed out). So workers also write their report to a file in the run folder when a send fails, and if a reply doesn't arrive, read the run folder and the worker's last assistant message (`list_events`) before assuming it's stuck. A worker that has gone quiet because its host is away needs the user, not a retry loop.
 
 **Silence.** A session reports only when it finishes a turn cleanly. One that errors, stalls or hits a usage limit goes quiet, which is why every dispatch gets a `send_later` check-in. When it fires: `get_session`, then `list_events` if that's unclear. Prefer switching reminders off (`update_trigger` with `enabled: false`) to deleting them; deletion is often left behind a permission prompt on purpose, so that no session can delete the user's other scheduled tasks.
 
