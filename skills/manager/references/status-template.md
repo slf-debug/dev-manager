@@ -1,6 +1,6 @@
 # <Job>: status
 
-Updated <YYYY-MM-DD HH:MM local> · Manager `<session id>` · Backend <sessions (machine | cloud) | subagents> · Run folder `<path>`
+Updated <YYYY-MM-DD HH:MM local> · Manager `<session id>` [<ref>] · Backend <sessions (machine | cloud) | subagents> · Run folder `<path>`
 Base: <repo> origin/<default> `<sha>` · Ship route: `<command>` or "PR, ask first"
 Run type: <plan only | review only | build to branch | build and ship> · Done when: <end point> · Ceiling: ~<n> <unit>, used ~<n>
 
