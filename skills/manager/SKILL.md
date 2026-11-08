@@ -43,7 +43,7 @@ If it's one area and about an hour's work, say so in a line and offer to do it d
 ## 1. Kickoff
 
 Gather first, without narrating it:
-1. **Who you are**: your own session id, if the backend has one (`get_session` with no arguments). Briefs quote it.
+1. **Who you are**: your own session id, if the backend has one (`get_session` with no arguments), and your ref, if you have `ListAgents` (its first line reads `This session is <name> [ref]`). Briefs quote both; workers on your machine find you by the ref.
 2. **The repo's rules**: CLAUDE.md files and any memory index, especially deploy, worktree, test and "what waits for the user" rules.
 3. **Who else is working**: `git worktree list`, recent `git log origin/<default>`, and any list of live sessions or agents you can see. Another session already working in the same area is a collision to raise with the user, not to work around.
 4. **The base**: `git fetch origin <default>` in each repo involved, and note the SHAs.
@@ -137,6 +137,8 @@ Rules that prevent failures already seen:
 - When a reminder fires, read STATUS.md first. If what it was checking is already handled, log that in a line and stop; don't re-check anything.
 - When a worker is overdue, look at its state and recent events, and tell the user plainly. A worker held by a usage limit resumes when the limit resets; give the user that time.
 - `references/backends.md` has the tools for each step.
+
+**Messages.** For each worker, use local `SendMessage` if it shows in `ListAgents`, and the claude-code-remote `send_message` only if it doesn't. Sessions on your machine (the ones `ListAgents` lists) get `SendMessage`, which in real use needed no approval. Each `send_message` call can stop at a permission prompt only the user can answer, and an approval from a hook can make the send fail: in real use, one run raised 7 such prompts in 10 minutes and lost a report. Find a peer by its ref, not its name, since names change when a session is renamed. `references/backends.md` has the detail, including cloud workers.
 
 **Relaying.**
 - To the user: 2–4 lines per report: what's done and what it means for them. Anything they must do or decide goes on their to-do list (below), not only in those lines. Batch several workers' questions into one message, your recommendation first.
@@ -249,7 +251,7 @@ On "status", "merge" or "wrap up", or a fresh start where a run already exists: 
 - Tell the user in one line, then do it at the next quiet point.
 - Bring STATUS.md and BRIEF.md fully up to date.
 - Start the new manager (strongest model, title `<Job>: manager`). Its brief says to read both files and that it takes over from you.
-- Tell each live worker where to report from now on.
+- Tell each live worker where to report from now on: the new manager's ref for workers in `ListAgents`, its session id for the rest.
 - Tell the user which session to talk to from now on, then stop.
 
 With the subagent backend, your own session is the only long-lived one. If it nears the threshold, finish the current step, bring STATUS.md up to date, and tell the user to continue in a fresh session with `/manager status`.
