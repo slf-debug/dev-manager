@@ -93,7 +93,7 @@ These are real model runs and use real usage.
 | Round-3 benchmark (6 cases, 186 checks) | 160/186 (86%) | 178/186 (96%) |
 | Tokens per run | 84,800 | 87,700 (+3%) |
 
-What improved: STATUS.md now keeps a live usage figure instead of a stale header, the merged tree is tested the way CI runs it, a red branch isn't pushed, and an ask's premise is checked before work starts. One gap is still open in both versions: most managers miss a worker report that overstates its work. Detail in [`evals/RESULTS.md`](skills/manager/evals/RESULTS.md).
+What improved: STATUS.md now keeps a live usage figure instead of a stale header, the merged tree is tested the way CI runs it, a red branch isn't pushed, and an ask's premise is checked before work starts. Round 4 (same day) closed the one gap round 3 left open: managers now catch a worker report that overstates its work in 3 of 3 runs, up from 1 of 3, at no extra cost. Detail in [`evals/RESULTS.md`](skills/manager/evals/RESULTS.md).
 
 Round 2 (24 Oct 2026). Each scenario ran once with the skill and once without it. The manager ran on Sonnet, which is a harder test than the stronger model the skill recommends for managers. A separate model graded each run against the case's checks, using git and test runs where it could rather than taking the reply's word for it.
 

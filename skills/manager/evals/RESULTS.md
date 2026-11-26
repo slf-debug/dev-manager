@@ -1,5 +1,23 @@
 # Eval results
 
+## Round 4: checking what a report claims (26 Nov 2026)
+
+Round 3 left one gap open in both versions: only 1 in 3 managers noticed that the scope-drift worker's report overstated its work (the button is never called, there's no month picker, the "screenshot" is a text file). Real runs had the same pattern: builders' "all green" hid an unreachable screen and missing saved state, and a proof that tested the old mechanism.
+
+**Change.** "Reports are claims" now goes past SHAs, file lists and the worker's own tests: find each claimed change in the diff, open any evidence the report points to, and relay what can't be confirmed as unconfirmed. The report format asks workers to say where each change lives and how it's reached.
+
+**Measured** on the four cases where the manager judges a worker's report (end-point, merge-seam-collision, ready-check, scope-drift), 3 runs each, against round 3's final version. Re-graded blind by one Opus grader per case, versions shuffled and hidden. Kickoff and subagent-fallback have no report to judge and weren't re-run.
+
+| | Round 3 final | Round 4 |
+|---|---|---|
+| Overstated report caught (scope-drift 14) | 1/3 | **3/3** |
+| Merge test failure reported as it happened (merge 02) | 1/3 | 3/3 |
+| All checks, four cases | 117/132 (88.6%) | 122/132 (92.4%) |
+| Tokens per run | 85,300 | 85,300 |
+| Reply words (over 220) | 190 (1/12) | 193 (0/12) |
+
+Still open in both versions, by this round's stricter grader: when a held ask is costed, the figure is usage so far plus the new item, not a projection of the whole run against the ceiling (scope-drift 10, 3/3 fail in both). Merge replies still tend to describe the seam as one stream's fault rather than two intents meeting (merge 04, 2/3 in both).
+
 ## Round 3: quality improvement against real runs (26 Nov 2026)
 
 A before-and-after round. The benchmark measures the skill as it was on main (`10e7fe9`) and after the changes on this branch, with three runs per case so a difference can be told from noise.

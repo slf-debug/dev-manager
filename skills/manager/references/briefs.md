@@ -44,7 +44,7 @@ Rules:
 When you're done, blocked or need a decision, report in 15 lines or fewer:
   STATUS: DONE | BLOCKED | NEEDS DECISION | HANDOVER
   <BRANCH> @ <SHA> (base origin/<DEFAULT> <SHA>)
-  Changed: <what users or developers will notice>
+  Changed: <what users or developers will notice; for each, where it lives (file:line) and how it's reached>
   Checks: <command> → <result>
   Not done / unsure: <…>
   For the user to do: <each thing only the user can do, one line each with the exact command or path, or "nothing">
