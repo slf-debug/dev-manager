@@ -75,7 +75,7 @@ The skill is general. Your own choices go in a setup file, `~/.claude/manager.md
 
 ## Tests
 
-`skills/manager/evals/` holds dry-run scenarios on a fictional three-repo app: kickoff on a plan-only ask, scope drift mid-run, stopping at the end point, falling back to subagents, and a merge where two streams collide at a seam. Each case builds its own throwaway repos. The manager logs the tool calls it would make instead of making them. Run them with:
+`skills/manager/evals/` holds dry-run scenarios on a fictional three-repo app: kickoff on a plan-only ask, scope drift mid-run, stopping at the end point, falling back to subagents, a merge where two streams collide at a seam, and a ready check where both streams pass their own tests but the merged tree fails a golden and a test that only runs in CI. Each case builds its own throwaway repos. The manager logs the tool calls it would make instead of making them. Run them with:
 
 ```
 cd skills/manager && claude plugin eval . --scaffold --allow-tools Write,Edit,Bash
@@ -84,6 +84,16 @@ cd skills/manager && claude plugin eval . --scaffold --allow-tools Write,Edit,Ba
 These are real model runs and use real usage.
 
 ### Results
+
+**Round 3 (26 Nov 2026), before and after.** Fixes drawn from 55 real runs, measured with three runs per case (18 per version). Graded blind by a separate model, with versions shuffled and hidden.
+
+| | Before (`10e7fe9`) | After |
+|---|---|---|
+| Original 49 checks | 135/147 (92%) | 140/147 (95%) |
+| Round-3 benchmark (6 cases, 186 checks) | 160/186 (86%) | 178/186 (96%) |
+| Tokens per run | 84,800 | 87,700 (+3%) |
+
+What improved: STATUS.md now keeps a live usage figure instead of a stale header, the merged tree is tested the way CI runs it, a red branch isn't pushed, and an ask's premise is checked before work starts. One gap is still open in both versions: most managers miss a worker report that overstates its work. Detail in [`evals/RESULTS.md`](skills/manager/evals/RESULTS.md).
 
 Round 2 (24 Oct 2026). Each scenario ran once with the skill and once without it. The manager ran on Sonnet, which is a harder test than the stronger model the skill recommends for managers. A separate model graded each run against the case's checks, using git and test runs where it could rather than taking the reply's word for it.
 

@@ -1,8 +1,17 @@
 # <Job>: status
 
-Updated <YYYY-MM-DD HH:MM local> · Manager `<session id>` · Backend <sessions (machine | cloud) | subagents> · Run folder `<path>`
+Manager `<session id>` · Backend <sessions (machine | cloud) | subagents> · Run folder `<path>`
 Base: <repo> origin/<default> `<sha>` · Ship route: `<command>` or "PR, ask first"
-Run type: <plan only | review only | build to branch | build and ship> · Done when: <end point> · Ceiling: ~<n> <unit>, used ~<n>
+Run type: <plan only | review only | build to branch | build and ship> · Done when: <end point> · Ceiling: ~<n> <unit>
+
+(No "Updated" time and no usage figure up here: the log's last line is the time, and usage lives in its own block below. A copy in the header goes stale with the next event.)
+
+## Usage
+
+Run total ~<n> of ~<ceiling> <unit> · <HH:MM from `date`> · <how it was read: get_session | subagent notices | estimate>
+- <worker or manager>: ~<n> (<source>) | unknown (<why it can't be read>)
+
+Refreshed in the same edit as every log line. The recap's usage line is copied from here.
 
 ## Goals
 
@@ -12,9 +21,9 @@ Run type: <plan only | review only | build to branch | build and ship> · Done w
 
 ## Streams
 
-| Stream | Goal | Worker id | Model | Worktree → branch | State | Last SHA | Usage |
-|---|---|---|---|---|---|---|---|
-| plan | all | `<id>` | <strong> | — (read-only) | done | — | ~<n> |
+| Stream | Goal | Worker id | Model | Worktree → branch | State | Last SHA |
+|---|---|---|---|---|---|---|
+| plan | all | `<id>` | <strong> | — (read-only) | done | — |
 
 States: planned · running · reported · verifying · fixing · ready · merged · shipped · closed
 
