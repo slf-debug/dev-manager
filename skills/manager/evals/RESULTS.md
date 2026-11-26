@@ -1,5 +1,20 @@
 # Eval results
 
+## Relays over SendMessage (26 Nov 2026)
+
+Workers on the user's machine show in `ListAgents`, so the manager now relays to them with local `SendMessage` and keeps the claude-code-remote `send_message` for cloud workers. In real use each `send_message` could stop at a permission prompt only the user can answer, and one run raised 7 in 10 minutes and lost a report.
+
+**Measured** against 0.2.0 on kickoff, scope-drift, merge and ready-check, 2 runs each, with the same harness for both versions. Both were told what `ListAgents` would show, so neither read real sessions. Re-graded blind by one Opus grader per case.
+
+| | 0.2.0 | With this change |
+|---|---|---|
+| All checks | 80/90 (88.9%) | 84/90 (93.3%) |
+| Worker relays via `send_message` | 4 | 0 (all 9 via `SendMessage`) |
+| Tap-gated calls in total | 12 | 9 |
+| Tokens per run | 88,100 | 88,200 |
+
+No check got worse. The score gap is within noise at two runs per case. In a real run without the harness hint, 0.2.0 sends every relay through `send_message`, so the saving there is larger than this table shows.
+
 ## Round 4: checking what a report claims (26 Nov 2026)
 
 Round 3 left one gap open in both versions: only 1 in 3 managers noticed that the scope-drift worker's report overstated its work (the button is never called, there's no month picker, the "screenshot" is a text file). Real runs had the same pattern: builders' "all green" hid an unreachable screen and missing saved state, and a proof that tested the old mechanism.
